@@ -140,3 +140,6 @@ vite.config.ts.timestamp-*
 
 # Client builds
 client/dist/
+
+# Secret files
+secret.txt
