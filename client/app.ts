@@ -1,3 +1,5 @@
+import cytoscape from 'cytoscape';
+
 // Initialize Cytoscape
 let cy = cytoscape({
     container: document.getElementById('cy'),
@@ -43,7 +45,7 @@ let cy = cytoscape({
         {
             selector: 'node:selected',
             style: {
-                'background-color': '#FF4136',
+                'background-color': '#5b36ff',
                 'border-width': 3,
                 'border-color': '#333'
             }
@@ -66,13 +68,13 @@ cy.on('tap', 'edge', function(evt) {
     console.log('Tapped on edge: ' + edge.id());
 });
 
-// Helper functions
-function resetGraph() {
+// Helper functions - expose to window for onclick handlers
+(window as any).resetGraph = function() {
     cy.layout({ name: 'circle' }).run();
 }
 
 let nodeCounter = 5;
-function addNode() {
+(window as any).addNode = function() {
     const newId = String.fromCharCode(96 + nodeCounter);
     cy.add({
         data: { 
@@ -81,5 +83,5 @@ function addNode() {
         }
     });
     nodeCounter++;
-    resetGraph();
+    (window as any).resetGraph();
 }
