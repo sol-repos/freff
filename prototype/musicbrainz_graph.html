@@ -1,0 +1,163 @@
+<html>
+    <head>
+        <meta charset="utf-8">
+        
+            <script src="lib/bindings/utils.js"></script>
+            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/vis-network/9.1.2/dist/dist/vis-network.min.css" integrity="sha512-WgxfT5LWjfszlPHXRmBWHkV2eceiWTOBvrKCNbdgDYTHrT2AeLCGbF4sZlZw3UMN3WtL0tGUoIAKsu8mllg/XA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/vis-network/9.1.2/dist/vis-network.min.js" integrity="sha512-LnvoEWDFrqGHlHmDD2101OrLcbsfkrzoSpvtSQtxK3RMnRV0eOkhhBN2dXHKRrUU8p2DGRTk35n4O8nWSVe1mQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+            
+        
+<center>
+<h1></h1>
+</center>
+
+<!-- <link rel="stylesheet" href="../node_modules/vis/dist/vis.min.css" type="text/css" />
+<script type="text/javascript" src="../node_modules/vis/dist/vis.js"> </script>-->
+        <link
+          href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css"
+          rel="stylesheet"
+          integrity="sha384-eOJMYsd53ii+scO/bJGFsiCZc+5NDVN2yr8+0RDqr0Ql0h+rP48ckxlpbzKgwra6"
+          crossorigin="anonymous"
+        />
+        <script
+          src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.bundle.min.js"
+          integrity="sha384-JEW9xMcG8R+pH31jmWH6WWP0WintQrMb4s7ZOdauHnUtxwoG2vI5DkLtS3qm9Ekf"
+          crossorigin="anonymous"
+        ></script>
+
+
+        <center>
+          <h1></h1>
+        </center>
+        <style type="text/css">
+
+             #mynetwork {
+                 width: 100%;
+                 height: 900px;
+                 background-color: #111111;
+                 border: 1px solid lightgray;
+                 position: relative;
+                 float: left;
+             }
+
+             
+
+             
+
+             
+        </style>
+    </head>
+
+
+    <body>
+        <div class="card" style="width: 100%">
+            
+            
+            <div id="mynetwork" class="card-body"></div>
+        </div>
+
+        
+        
+
+        <script type="text/javascript">
+
+              // initialize global variables.
+              var edges;
+              var nodes;
+              var allNodes;
+              var allEdges;
+              var nodeColors;
+              var originalNodes;
+              var network;
+              var container;
+              var options, data;
+              var filter = {
+                  item : '',
+                  property : '',
+                  value : []
+              };
+
+              
+
+              
+
+              // This method is responsible for drawing the graph, returns the drawn network
+              function drawGraph() {
+                  var container = document.getElementById('mynetwork');
+
+                  
+
+                  // parsing and collecting nodes and edges from the python
+                  nodes = new vis.DataSet([{"color": "#d15eae", "font": {"color": "white"}, "id": "a40ea317-e531-428a-909b-da1e68700573", "label": "Freddie Dredd", "shape": "dot"}, {"color": "#d8aa59", "font": {"color": "white"}, "id": "6ad4e523-2d44-4151-a32a-fc39cb50d689", "label": "Lil Kaine", "shape": "dot"}, {"color": "#d2c8bb", "font": {"color": "white"}, "id": "ade4c525-9c89-4977-8cf6-dedd53c54573", "label": "Cursed", "shape": "dot"}, {"color": "#6f80e8", "font": {"color": "white"}, "id": "99e0983f-6183-463e-a61e-2041ca8931ba", "label": "Lil Darkie", "shape": "dot"}, {"color": "#b9c9b5", "font": {"color": "white"}, "id": "e0b50375-d3b1-4fbd-960b-67ce8950f737", "label": "1nonly", "shape": "dot"}, {"color": "#dbdf93", "font": {"color": "white"}, "id": "162b4965-1664-45d9-9c4d-91a948da1736", "label": "870glizzy", "shape": "dot"}, {"color": "#95ef60", "font": {"color": "white"}, "id": "ef326b3d-61f0-4379-aca0-21237d696d63", "label": "$uicideboy$", "shape": "dot"}, {"color": "#e5af6f", "font": {"color": "white"}, "id": "d231ec46-7c77-473f-ae50-71f774461abf", "label": "Ramirez", "shape": "dot"}, {"color": "#6b7afd", "font": {"color": "white"}, "id": "cae09884-f473-460a-a04a-4dd3fc69cf6e", "label": "Pouya", "shape": "dot"}, {"color": "#e4855c", "font": {"color": "white"}, "id": "c25963ac-b289-4d99-a8dc-06c0ce757f0c", "label": "Night Lovell", "shape": "dot"}, {"color": "#cbe4a5", "font": {"color": "white"}, "id": "1989dd59-7f11-4c90-9450-4d728ed07fb0", "label": "Ghostemane", "shape": "dot"}, {"color": "#a4dfa8", "font": {"color": "white"}, "id": "1e24e6b0-5dd3-4c6d-850b-c477824cfe1d", "label": "lilbubblegum", "shape": "dot"}, {"color": "#95ca85", "font": {"color": "white"}, "id": "e5935f40-48a6-4bab-8ace-4ad7f7148e15", "label": "Savage Ga$p", "shape": "dot"}, {"color": "#69cb83", "font": {"color": "white"}, "id": "ce512113-aab1-49a8-b4f0-d8400fa33c8e", "label": "Letoa", "shape": "dot"}, {"color": "#50a17c", "font": {"color": "white"}, "id": "419d19c3-de05-4ba3-a2c8-5c3fd5ec06cf", "label": "SXMPRA", "shape": "dot"}, {"color": "#8bdcb1", "font": {"color": "white"}, "id": "4ce34d0f-0d21-4521-92c6-09b47db6f5e8", "label": "ISSBROKIE", "shape": "dot"}, {"color": "#bac1a1", "font": {"color": "white"}, "id": "84b74b71-d9fc-4e1e-b77b-34c697df5666", "label": "GODHANDUSA", "shape": "dot"}, {"color": "#f65066", "font": {"color": "white"}, "id": "cad93cfa-f023-4f42-9919-0d73567575b4", "label": "Bumboi", "shape": "dot"}, {"color": "#79d56f", "font": {"color": "white"}, "id": "8b87a68b-5d06-4ac1-a88f-752d3cfbd989", "label": "Salvia Grey", "shape": "dot"}, {"color": "#937df2", "font": {"color": "white"}, "id": "bc4cf08a-4ffe-454e-93b2-30a0be5cef8c", "label": "BLCKK", "shape": "dot"}, {"color": "#50aef5", "font": {"color": "white"}, "id": "32477cb6-1132-49ac-837f-0a88260b80a8", "label": "shteppi", "shape": "dot"}, {"color": "#b3ad7f", "font": {"color": "white"}, "id": "31a0ab8f-c879-4cbc-95e6-3101b08c7ffc", "label": "Santos Santana", "shape": "dot"}, {"color": "#d75785", "font": {"color": "white"}, "id": "7932a977-460b-46c7-bbfb-a4db3ebca16f", "label": "Sinizter", "shape": "dot"}, {"color": "#fec7b6", "font": {"color": "white"}, "id": "215294d9-e121-4458-ba5b-44a3320c9cd3", "label": "Sect Unit aka. Cardeair\u00e8 Jack", "shape": "dot"}, {"color": "#678f7c", "font": {"color": "white"}, "id": "d04743e0-7b28-437a-9d06-3e3e6232d880", "label": "Faceless 1-7", "shape": "dot"}, {"color": "#afc2bf", "font": {"color": "white"}, "id": "806c25d3-7724-4da0-8c5e-08797f1efe5b", "label": "Witchouse 40k", "shape": "dot"}, {"color": "#5c66cb", "font": {"color": "white"}, "id": "a9fc7c6e-cd47-46d3-b0d0-07b512ca8ded", "label": "Prompto", "shape": "dot"}, {"color": "#e1f5ec", "font": {"color": "white"}, "id": "cbf010c3-db28-41dc-accf-b58a547a6ba7", "label": "NetuH", "shape": "dot"}, {"color": "#f48cf0", "font": {"color": "white"}, "id": "e11fda7b-15fd-453a-ac9b-0704cbba7529", "label": "Sadfriendd", "shape": "dot"}, {"color": "#8b9596", "font": {"color": "white"}, "id": "9b3efa33-033b-4612-8d7d-e3bac072a770", "label": "Lord Gasp", "shape": "dot"}, {"color": "#fa66e0", "font": {"color": "white"}, "id": "1757ec32-7b59-403d-bbe5-5e85a0207baf", "label": "Istasha", "shape": "dot"}, {"color": "#8b8555", "font": {"color": "white"}, "id": "63e1d5bf-f968-4487-a449-5786fa6b4454", "label": "Grim Salvo", "shape": "dot"}, {"color": "#a25fef", "font": {"color": "white"}, "id": "e11bf872-101b-44e0-99e2-58bc4f5e5f8d", "label": "99zed", "shape": "dot"}, {"color": "#f6edc1", "font": {"color": "white"}, "id": "c9e99426-b852-4509-97d5-e7546e8c6b2d", "label": "KAMAARA", "shape": "dot"}, {"color": "#6ee79c", "font": {"color": "white"}, "id": "d49766d4-bb65-47a2-9056-d1dc02cc2575", "label": "TWENTYTHREE", "shape": "dot"}, {"color": "#af92d6", "font": {"color": "white"}, "id": "3cd4ffd4-d934-4007-9ad4-829f86eefd3d", "label": "Lu", "shape": "dot"}, {"color": "#93e2c3", "font": {"color": "white"}, "id": "20b034b2-35a1-40be-908f-22d1b5681572", "label": "Yung Gravy", "shape": "dot"}, {"color": "#f8b897", "font": {"color": "white"}, "id": "6d3b73ab-fd28-457a-a68c-dbe359f19b56", "label": "MOSSBACK", "shape": "dot"}, {"color": "#b35c7e", "font": {"color": "white"}, "id": "b7d60457-cf60-4d53-90e7-c457f657487b", "label": "cr1tter", "shape": "dot"}, {"color": "#ed87ad", "font": {"color": "white"}, "id": "b99ea5a6-84a0-4fd3-8976-f73252853f05", "label": "Towa ", "shape": "dot"}, {"color": "#59c7a7", "font": {"color": "white"}, "id": "1f23ac38-b652-4dc7-9684-a4a3f6a211f2", "label": "Warlord Colossus", "shape": "dot"}, {"color": "#7f505d", "font": {"color": "white"}, "id": "bb7959ac-84cc-45c4-8138-d80ee5f2bd9a", "label": "Lucy Bedroque", "shape": "dot"}, {"color": "#c7df52", "font": {"color": "white"}, "id": "6e878f15-50aa-4087-966a-f3cc1f06dce3", "label": "egobreak", "shape": "dot"}, {"color": "#ceb9ed", "font": {"color": "white"}, "id": "968847c6-2150-419d-b14b-68c672dcde99", "label": "fakemink", "shape": "dot"}]);
+                  edges = new vis.DataSet([{"from": "a40ea317-e531-428a-909b-da1e68700573", "title": "Gemeinsame Tracks: 6", "to": "6ad4e523-2d44-4151-a32a-fc39cb50d689", "value": 6}, {"from": "a40ea317-e531-428a-909b-da1e68700573", "title": "Gemeinsame Tracks: 3", "to": "ade4c525-9c89-4977-8cf6-dedd53c54573", "value": 3}, {"from": "a40ea317-e531-428a-909b-da1e68700573", "title": "Gemeinsame Tracks: 3", "to": "99e0983f-6183-463e-a61e-2041ca8931ba", "value": 3}, {"from": "a40ea317-e531-428a-909b-da1e68700573", "title": "Gemeinsame Tracks: 14", "to": "e0b50375-d3b1-4fbd-960b-67ce8950f737", "value": 14}, {"from": "a40ea317-e531-428a-909b-da1e68700573", "title": "Gemeinsame Tracks: 3", "to": "162b4965-1664-45d9-9c4d-91a948da1736", "value": 3}, {"from": "a40ea317-e531-428a-909b-da1e68700573", "title": "Gemeinsame Tracks: 1", "to": "ef326b3d-61f0-4379-aca0-21237d696d63", "value": 1}, {"from": "a40ea317-e531-428a-909b-da1e68700573", "title": "Gemeinsame Tracks: 1", "to": "d231ec46-7c77-473f-ae50-71f774461abf", "value": 1}, {"from": "a40ea317-e531-428a-909b-da1e68700573", "title": "Gemeinsame Tracks: 1", "to": "c25963ac-b289-4d99-a8dc-06c0ce757f0c", "value": 1}, {"from": "a40ea317-e531-428a-909b-da1e68700573", "title": "Gemeinsame Tracks: 1", "to": "e5935f40-48a6-4bab-8ace-4ad7f7148e15", "value": 1}, {"from": "6ad4e523-2d44-4151-a32a-fc39cb50d689", "title": "Gemeinsame Tracks: 3", "to": "ade4c525-9c89-4977-8cf6-dedd53c54573", "value": 3}, {"from": "ade4c525-9c89-4977-8cf6-dedd53c54573", "title": "Gemeinsame Tracks: 4", "to": "d231ec46-7c77-473f-ae50-71f774461abf", "value": 4}, {"from": "99e0983f-6183-463e-a61e-2041ca8931ba", "title": "Gemeinsame Tracks: 2", "to": "63e1d5bf-f968-4487-a449-5786fa6b4454", "value": 2}, {"from": "99e0983f-6183-463e-a61e-2041ca8931ba", "title": "Gemeinsame Tracks: 2", "to": "806c25d3-7724-4da0-8c5e-08797f1efe5b", "value": 2}, {"from": "99e0983f-6183-463e-a61e-2041ca8931ba", "title": "Gemeinsame Tracks: 1", "to": "4ce34d0f-0d21-4521-92c6-09b47db6f5e8", "value": 1}, {"from": "99e0983f-6183-463e-a61e-2041ca8931ba", "title": "Gemeinsame Tracks: 6", "to": "c9e99426-b852-4509-97d5-e7546e8c6b2d", "value": 6}, {"from": "99e0983f-6183-463e-a61e-2041ca8931ba", "title": "Gemeinsame Tracks: 1", "to": "99e0983f-6183-463e-a61e-2041ca8931ba", "value": 1}, {"from": "99e0983f-6183-463e-a61e-2041ca8931ba", "title": "Gemeinsame Tracks: 2", "to": "bc4cf08a-4ffe-454e-93b2-30a0be5cef8c", "value": 2}, {"from": "99e0983f-6183-463e-a61e-2041ca8931ba", "title": "Gemeinsame Tracks: 2", "to": "cae09884-f473-460a-a04a-4dd3fc69cf6e", "value": 2}, {"from": "99e0983f-6183-463e-a61e-2041ca8931ba", "title": "Gemeinsame Tracks: 10", "to": "e5935f40-48a6-4bab-8ace-4ad7f7148e15", "value": 10}, {"from": "99e0983f-6183-463e-a61e-2041ca8931ba", "title": "Gemeinsame Tracks: 3", "to": "419d19c3-de05-4ba3-a2c8-5c3fd5ec06cf", "value": 3}, {"from": "e0b50375-d3b1-4fbd-960b-67ce8950f737", "title": "Gemeinsame Tracks: 8", "to": "162b4965-1664-45d9-9c4d-91a948da1736", "value": 8}, {"from": "e0b50375-d3b1-4fbd-960b-67ce8950f737", "title": "Gemeinsame Tracks: 8", "to": "1e24e6b0-5dd3-4c6d-850b-c477824cfe1d", "value": 8}, {"from": "e0b50375-d3b1-4fbd-960b-67ce8950f737", "title": "Gemeinsame Tracks: 6", "to": "e5935f40-48a6-4bab-8ace-4ad7f7148e15", "value": 6}, {"from": "e0b50375-d3b1-4fbd-960b-67ce8950f737", "title": "Gemeinsame Tracks: 3", "to": "ce512113-aab1-49a8-b4f0-d8400fa33c8e", "value": 3}, {"from": "e0b50375-d3b1-4fbd-960b-67ce8950f737", "title": "Gemeinsame Tracks: 6", "to": "419d19c3-de05-4ba3-a2c8-5c3fd5ec06cf", "value": 6}, {"from": "e0b50375-d3b1-4fbd-960b-67ce8950f737", "title": "Gemeinsame Tracks: 3", "to": "cae09884-f473-460a-a04a-4dd3fc69cf6e", "value": 3}, {"from": "e0b50375-d3b1-4fbd-960b-67ce8950f737", "title": "Gemeinsame Tracks: 1", "to": "e11fda7b-15fd-453a-ac9b-0704cbba7529", "value": 1}, {"from": "e0b50375-d3b1-4fbd-960b-67ce8950f737", "title": "Gemeinsame Tracks: 2", "to": "b99ea5a6-84a0-4fd3-8976-f73252853f05", "value": 2}, {"from": "162b4965-1664-45d9-9c4d-91a948da1736", "title": "Gemeinsame Tracks: 1", "to": "4ce34d0f-0d21-4521-92c6-09b47db6f5e8", "value": 1}, {"from": "162b4965-1664-45d9-9c4d-91a948da1736", "title": "Gemeinsame Tracks: 4", "to": "84b74b71-d9fc-4e1e-b77b-34c697df5666", "value": 4}, {"from": "162b4965-1664-45d9-9c4d-91a948da1736", "title": "Gemeinsame Tracks: 4", "to": "cad93cfa-f023-4f42-9919-0d73567575b4", "value": 4}, {"from": "162b4965-1664-45d9-9c4d-91a948da1736", "title": "Gemeinsame Tracks: 1", "to": "8b87a68b-5d06-4ac1-a88f-752d3cfbd989", "value": 1}, {"from": "162b4965-1664-45d9-9c4d-91a948da1736", "title": "Gemeinsame Tracks: 1", "to": "419d19c3-de05-4ba3-a2c8-5c3fd5ec06cf", "value": 1}, {"from": "162b4965-1664-45d9-9c4d-91a948da1736", "title": "Gemeinsame Tracks: 1", "to": "b99ea5a6-84a0-4fd3-8976-f73252853f05", "value": 1}, {"from": "ef326b3d-61f0-4379-aca0-21237d696d63", "title": "Gemeinsame Tracks: 29", "to": "d231ec46-7c77-473f-ae50-71f774461abf", "value": 29}, {"from": "ef326b3d-61f0-4379-aca0-21237d696d63", "title": "Gemeinsame Tracks: 15", "to": "cae09884-f473-460a-a04a-4dd3fc69cf6e", "value": 15}, {"from": "ef326b3d-61f0-4379-aca0-21237d696d63", "title": "Gemeinsame Tracks: 5", "to": "c25963ac-b289-4d99-a8dc-06c0ce757f0c", "value": 5}, {"from": "ef326b3d-61f0-4379-aca0-21237d696d63", "title": "Gemeinsame Tracks: 2", "to": "1989dd59-7f11-4c90-9450-4d728ed07fb0", "value": 2}, {"from": "d231ec46-7c77-473f-ae50-71f774461abf", "title": "Gemeinsame Tracks: 13", "to": "cae09884-f473-460a-a04a-4dd3fc69cf6e", "value": 13}, {"from": "d231ec46-7c77-473f-ae50-71f774461abf", "title": "Gemeinsame Tracks: 3", "to": "3cd4ffd4-d934-4007-9ad4-829f86eefd3d", "value": 3}, {"from": "d231ec46-7c77-473f-ae50-71f774461abf", "title": "Gemeinsame Tracks: 2", "to": "1989dd59-7f11-4c90-9450-4d728ed07fb0", "value": 2}, {"from": "d231ec46-7c77-473f-ae50-71f774461abf", "title": "Gemeinsame Tracks: 1", "to": "c25963ac-b289-4d99-a8dc-06c0ce757f0c", "value": 1}, {"from": "d231ec46-7c77-473f-ae50-71f774461abf", "title": "Gemeinsame Tracks: 1", "to": "419d19c3-de05-4ba3-a2c8-5c3fd5ec06cf", "value": 1}, {"from": "d231ec46-7c77-473f-ae50-71f774461abf", "title": "Gemeinsame Tracks: 2", "to": "20b034b2-35a1-40be-908f-22d1b5681572", "value": 2}, {"from": "cae09884-f473-460a-a04a-4dd3fc69cf6e", "title": "Gemeinsame Tracks: 8", "to": "3cd4ffd4-d934-4007-9ad4-829f86eefd3d", "value": 8}, {"from": "cae09884-f473-460a-a04a-4dd3fc69cf6e", "title": "Gemeinsame Tracks: 9", "to": "1989dd59-7f11-4c90-9450-4d728ed07fb0", "value": 9}, {"from": "cae09884-f473-460a-a04a-4dd3fc69cf6e", "title": "Gemeinsame Tracks: 1", "to": "c25963ac-b289-4d99-a8dc-06c0ce757f0c", "value": 1}, {"from": "cae09884-f473-460a-a04a-4dd3fc69cf6e", "title": "Gemeinsame Tracks: 4", "to": "20b034b2-35a1-40be-908f-22d1b5681572", "value": 4}, {"from": "cae09884-f473-460a-a04a-4dd3fc69cf6e", "title": "Gemeinsame Tracks: 1", "to": "419d19c3-de05-4ba3-a2c8-5c3fd5ec06cf", "value": 1}, {"from": "1e24e6b0-5dd3-4c6d-850b-c477824cfe1d", "title": "Gemeinsame Tracks: 4", "to": "e5935f40-48a6-4bab-8ace-4ad7f7148e15", "value": 4}, {"from": "1e24e6b0-5dd3-4c6d-850b-c477824cfe1d", "title": "Gemeinsame Tracks: 6", "to": "ce512113-aab1-49a8-b4f0-d8400fa33c8e", "value": 6}, {"from": "1e24e6b0-5dd3-4c6d-850b-c477824cfe1d", "title": "Gemeinsame Tracks: 1", "to": "e11fda7b-15fd-453a-ac9b-0704cbba7529", "value": 1}, {"from": "1e24e6b0-5dd3-4c6d-850b-c477824cfe1d", "title": "Gemeinsame Tracks: 2", "to": "20b034b2-35a1-40be-908f-22d1b5681572", "value": 2}, {"from": "e5935f40-48a6-4bab-8ace-4ad7f7148e15", "title": "Gemeinsame Tracks: 8", "to": "419d19c3-de05-4ba3-a2c8-5c3fd5ec06cf", "value": 8}, {"from": "e5935f40-48a6-4bab-8ace-4ad7f7148e15", "title": "Gemeinsame Tracks: 3", "to": "84b74b71-d9fc-4e1e-b77b-34c697df5666", "value": 3}, {"from": "e5935f40-48a6-4bab-8ace-4ad7f7148e15", "title": "Gemeinsame Tracks: 8", "to": "63e1d5bf-f968-4487-a449-5786fa6b4454", "value": 8}, {"from": "e5935f40-48a6-4bab-8ace-4ad7f7148e15", "title": "Gemeinsame Tracks: 30", "to": "c9e99426-b852-4509-97d5-e7546e8c6b2d", "value": 30}, {"from": "e5935f40-48a6-4bab-8ace-4ad7f7148e15", "title": "Gemeinsame Tracks: 14", "to": "806c25d3-7724-4da0-8c5e-08797f1efe5b", "value": 14}, {"from": "e5935f40-48a6-4bab-8ace-4ad7f7148e15", "title": "Gemeinsame Tracks: 5", "to": "8b87a68b-5d06-4ac1-a88f-752d3cfbd989", "value": 5}, {"from": "e5935f40-48a6-4bab-8ace-4ad7f7148e15", "title": "Gemeinsame Tracks: 6", "to": "e11bf872-101b-44e0-99e2-58bc4f5e5f8d", "value": 6}, {"from": "e5935f40-48a6-4bab-8ace-4ad7f7148e15", "title": "Gemeinsame Tracks: 6", "to": "d49766d4-bb65-47a2-9056-d1dc02cc2575", "value": 6}, {"from": "e5935f40-48a6-4bab-8ace-4ad7f7148e15", "title": "Gemeinsame Tracks: 1", "to": "1757ec32-7b59-403d-bbe5-5e85a0207baf", "value": 1}, {"from": "e5935f40-48a6-4bab-8ace-4ad7f7148e15", "title": "Gemeinsame Tracks: 5", "to": "6d3b73ab-fd28-457a-a68c-dbe359f19b56", "value": 5}, {"from": "419d19c3-de05-4ba3-a2c8-5c3fd5ec06cf", "title": "Gemeinsame Tracks: 4", "to": "7932a977-460b-46c7-bbfb-a4db3ebca16f", "value": 4}, {"from": "419d19c3-de05-4ba3-a2c8-5c3fd5ec06cf", "title": "Gemeinsame Tracks: 3", "to": "84b74b71-d9fc-4e1e-b77b-34c697df5666", "value": 3}, {"from": "419d19c3-de05-4ba3-a2c8-5c3fd5ec06cf", "title": "Gemeinsame Tracks: 2", "to": "c9e99426-b852-4509-97d5-e7546e8c6b2d", "value": 2}, {"from": "419d19c3-de05-4ba3-a2c8-5c3fd5ec06cf", "title": "Gemeinsame Tracks: 6", "to": "1f23ac38-b652-4dc7-9684-a4a3f6a211f2", "value": 6}, {"from": "4ce34d0f-0d21-4521-92c6-09b47db6f5e8", "title": "Gemeinsame Tracks: 32", "to": "bc4cf08a-4ffe-454e-93b2-30a0be5cef8c", "value": 32}, {"from": "4ce34d0f-0d21-4521-92c6-09b47db6f5e8", "title": "Gemeinsame Tracks: 4", "to": "32477cb6-1132-49ac-837f-0a88260b80a8", "value": 4}, {"from": "4ce34d0f-0d21-4521-92c6-09b47db6f5e8", "title": "Gemeinsame Tracks: 2", "to": "84b74b71-d9fc-4e1e-b77b-34c697df5666", "value": 2}, {"from": "84b74b71-d9fc-4e1e-b77b-34c697df5666", "title": "Gemeinsame Tracks: 3", "to": "cad93cfa-f023-4f42-9919-0d73567575b4", "value": 3}, {"from": "84b74b71-d9fc-4e1e-b77b-34c697df5666", "title": "Gemeinsame Tracks: 1", "to": "e11fda7b-15fd-453a-ac9b-0704cbba7529", "value": 1}, {"from": "cad93cfa-f023-4f42-9919-0d73567575b4", "title": "Gemeinsame Tracks: 1", "to": "8b87a68b-5d06-4ac1-a88f-752d3cfbd989", "value": 1}, {"from": "8b87a68b-5d06-4ac1-a88f-752d3cfbd989", "title": "Gemeinsame Tracks: 5", "to": "63e1d5bf-f968-4487-a449-5786fa6b4454", "value": 5}, {"from": "8b87a68b-5d06-4ac1-a88f-752d3cfbd989", "title": "Gemeinsame Tracks: 124", "to": "e11bf872-101b-44e0-99e2-58bc4f5e5f8d", "value": 124}, {"from": "8b87a68b-5d06-4ac1-a88f-752d3cfbd989", "title": "Gemeinsame Tracks: 4", "to": "c9e99426-b852-4509-97d5-e7546e8c6b2d", "value": 4}, {"from": "8b87a68b-5d06-4ac1-a88f-752d3cfbd989", "title": "Gemeinsame Tracks: 5", "to": "806c25d3-7724-4da0-8c5e-08797f1efe5b", "value": 5}, {"from": "8b87a68b-5d06-4ac1-a88f-752d3cfbd989", "title": "Gemeinsame Tracks: 13", "to": "d49766d4-bb65-47a2-9056-d1dc02cc2575", "value": 13}, {"from": "8b87a68b-5d06-4ac1-a88f-752d3cfbd989", "title": "Gemeinsame Tracks: 1", "to": "cbf010c3-db28-41dc-accf-b58a547a6ba7", "value": 1}, {"from": "8b87a68b-5d06-4ac1-a88f-752d3cfbd989", "title": "Gemeinsame Tracks: 3", "to": "6d3b73ab-fd28-457a-a68c-dbe359f19b56", "value": 3}, {"from": "bc4cf08a-4ffe-454e-93b2-30a0be5cef8c", "title": "Gemeinsame Tracks: 4", "to": "32477cb6-1132-49ac-837f-0a88260b80a8", "value": 4}, {"from": "32477cb6-1132-49ac-837f-0a88260b80a8", "title": "Gemeinsame Tracks: 2", "to": "b7d60457-cf60-4d53-90e7-c457f657487b", "value": 2}, {"from": "31a0ab8f-c879-4cbc-95e6-3101b08c7ffc", "title": "Gemeinsame Tracks: 10", "to": "7932a977-460b-46c7-bbfb-a4db3ebca16f", "value": 10}, {"from": "31a0ab8f-c879-4cbc-95e6-3101b08c7ffc", "title": "Gemeinsame Tracks: 3", "to": "215294d9-e121-4458-ba5b-44a3320c9cd3", "value": 3}, {"from": "31a0ab8f-c879-4cbc-95e6-3101b08c7ffc", "title": "Gemeinsame Tracks: 3", "to": "d04743e0-7b28-437a-9d06-3e3e6232d880", "value": 3}, {"from": "31a0ab8f-c879-4cbc-95e6-3101b08c7ffc", "title": "Gemeinsame Tracks: 1", "to": "a9fc7c6e-cd47-46d3-b0d0-07b512ca8ded", "value": 1}, {"from": "7932a977-460b-46c7-bbfb-a4db3ebca16f", "title": "Gemeinsame Tracks: 2", "to": "806c25d3-7724-4da0-8c5e-08797f1efe5b", "value": 2}, {"from": "7932a977-460b-46c7-bbfb-a4db3ebca16f", "title": "Gemeinsame Tracks: 4", "to": "a9fc7c6e-cd47-46d3-b0d0-07b512ca8ded", "value": 4}, {"from": "7932a977-460b-46c7-bbfb-a4db3ebca16f", "title": "Gemeinsame Tracks: 46", "to": "cbf010c3-db28-41dc-accf-b58a547a6ba7", "value": 46}, {"from": "7932a977-460b-46c7-bbfb-a4db3ebca16f", "title": "Gemeinsame Tracks: 6", "to": "e11fda7b-15fd-453a-ac9b-0704cbba7529", "value": 6}, {"from": "7932a977-460b-46c7-bbfb-a4db3ebca16f", "title": "Gemeinsame Tracks: 1", "to": "b99ea5a6-84a0-4fd3-8976-f73252853f05", "value": 1}, {"from": "215294d9-e121-4458-ba5b-44a3320c9cd3", "title": "Gemeinsame Tracks: 3", "to": "d04743e0-7b28-437a-9d06-3e3e6232d880", "value": 3}, {"from": "215294d9-e121-4458-ba5b-44a3320c9cd3", "title": "Gemeinsame Tracks: 6", "to": "9b3efa33-033b-4612-8d7d-e3bac072a770", "value": 6}, {"from": "d04743e0-7b28-437a-9d06-3e3e6232d880", "title": "Gemeinsame Tracks: 2", "to": "a9fc7c6e-cd47-46d3-b0d0-07b512ca8ded", "value": 2}, {"from": "806c25d3-7724-4da0-8c5e-08797f1efe5b", "title": "Gemeinsame Tracks: 1", "to": "9b3efa33-033b-4612-8d7d-e3bac072a770", "value": 1}, {"from": "806c25d3-7724-4da0-8c5e-08797f1efe5b", "title": "Gemeinsame Tracks: 32", "to": "63e1d5bf-f968-4487-a449-5786fa6b4454", "value": 32}, {"from": "806c25d3-7724-4da0-8c5e-08797f1efe5b", "title": "Gemeinsame Tracks: 10", "to": "c9e99426-b852-4509-97d5-e7546e8c6b2d", "value": 10}, {"from": "806c25d3-7724-4da0-8c5e-08797f1efe5b", "title": "Gemeinsame Tracks: 4", "to": "e11bf872-101b-44e0-99e2-58bc4f5e5f8d", "value": 4}, {"from": "806c25d3-7724-4da0-8c5e-08797f1efe5b", "title": "Gemeinsame Tracks: 10", "to": "d49766d4-bb65-47a2-9056-d1dc02cc2575", "value": 10}, {"from": "806c25d3-7724-4da0-8c5e-08797f1efe5b", "title": "Gemeinsame Tracks: 3", "to": "1757ec32-7b59-403d-bbe5-5e85a0207baf", "value": 3}, {"from": "806c25d3-7724-4da0-8c5e-08797f1efe5b", "title": "Gemeinsame Tracks: 4", "to": "1f23ac38-b652-4dc7-9684-a4a3f6a211f2", "value": 4}, {"from": "806c25d3-7724-4da0-8c5e-08797f1efe5b", "title": "Gemeinsame Tracks: 3", "to": "6d3b73ab-fd28-457a-a68c-dbe359f19b56", "value": 3}, {"from": "a9fc7c6e-cd47-46d3-b0d0-07b512ca8ded", "title": "Gemeinsame Tracks: 2", "to": "cbf010c3-db28-41dc-accf-b58a547a6ba7", "value": 2}, {"from": "a9fc7c6e-cd47-46d3-b0d0-07b512ca8ded", "title": "Gemeinsame Tracks: 6", "to": "e11fda7b-15fd-453a-ac9b-0704cbba7529", "value": 6}, {"from": "cbf010c3-db28-41dc-accf-b58a547a6ba7", "title": "Gemeinsame Tracks: 2", "to": "1f23ac38-b652-4dc7-9684-a4a3f6a211f2", "value": 2}, {"from": "e11fda7b-15fd-453a-ac9b-0704cbba7529", "title": "Gemeinsame Tracks: 19", "to": "b99ea5a6-84a0-4fd3-8976-f73252853f05", "value": 19}, {"from": "9b3efa33-033b-4612-8d7d-e3bac072a770", "title": "Gemeinsame Tracks: 4", "to": "1757ec32-7b59-403d-bbe5-5e85a0207baf", "value": 4}, {"from": "1757ec32-7b59-403d-bbe5-5e85a0207baf", "title": "Gemeinsame Tracks: 20", "to": "d49766d4-bb65-47a2-9056-d1dc02cc2575", "value": 20}, {"from": "1757ec32-7b59-403d-bbe5-5e85a0207baf", "title": "Gemeinsame Tracks: 2", "to": "c9e99426-b852-4509-97d5-e7546e8c6b2d", "value": 2}, {"from": "1757ec32-7b59-403d-bbe5-5e85a0207baf", "title": "Gemeinsame Tracks: 3", "to": "6d3b73ab-fd28-457a-a68c-dbe359f19b56", "value": 3}, {"from": "63e1d5bf-f968-4487-a449-5786fa6b4454", "title": "Gemeinsame Tracks: 5", "to": "e11bf872-101b-44e0-99e2-58bc4f5e5f8d", "value": 5}, {"from": "63e1d5bf-f968-4487-a449-5786fa6b4454", "title": "Gemeinsame Tracks: 10", "to": "c9e99426-b852-4509-97d5-e7546e8c6b2d", "value": 10}, {"from": "63e1d5bf-f968-4487-a449-5786fa6b4454", "title": "Gemeinsame Tracks: 6", "to": "d49766d4-bb65-47a2-9056-d1dc02cc2575", "value": 6}, {"from": "e11bf872-101b-44e0-99e2-58bc4f5e5f8d", "title": "Gemeinsame Tracks: 5", "to": "c9e99426-b852-4509-97d5-e7546e8c6b2d", "value": 5}, {"from": "e11bf872-101b-44e0-99e2-58bc4f5e5f8d", "title": "Gemeinsame Tracks: 15", "to": "d49766d4-bb65-47a2-9056-d1dc02cc2575", "value": 15}, {"from": "e11bf872-101b-44e0-99e2-58bc4f5e5f8d", "title": "Gemeinsame Tracks: 1", "to": "6d3b73ab-fd28-457a-a68c-dbe359f19b56", "value": 1}, {"from": "c9e99426-b852-4509-97d5-e7546e8c6b2d", "title": "Gemeinsame Tracks: 4", "to": "d49766d4-bb65-47a2-9056-d1dc02cc2575", "value": 4}, {"from": "c9e99426-b852-4509-97d5-e7546e8c6b2d", "title": "Gemeinsame Tracks: 1", "to": "6d3b73ab-fd28-457a-a68c-dbe359f19b56", "value": 1}, {"from": "d49766d4-bb65-47a2-9056-d1dc02cc2575", "title": "Gemeinsame Tracks: 10", "to": "6d3b73ab-fd28-457a-a68c-dbe359f19b56", "value": 10}, {"from": "bb7959ac-84cc-45c4-8138-d80ee5f2bd9a", "title": "Gemeinsame Tracks: 12", "to": "6e878f15-50aa-4087-966a-f3cc1f06dce3", "value": 12}]);
+
+                  nodeColors = {};
+                  allNodes = nodes.get({ returnType: "Object" });
+                  for (nodeId in allNodes) {
+                    nodeColors[nodeId] = allNodes[nodeId].color;
+                  }
+                  allEdges = edges.get({ returnType: "Object" });
+                  // adding nodes and edges to the graph
+                  data = {nodes: nodes, edges: edges};
+
+                  var options = {
+    "configure": {
+        "enabled": false
+    },
+    "edges": {
+        "color": {
+            "inherit": true
+        },
+        "smooth": {
+            "enabled": true,
+            "type": "dynamic"
+        }
+    },
+    "interaction": {
+        "dragNodes": true,
+        "hideEdgesOnDrag": false,
+        "hideNodesOnDrag": false
+    },
+    "physics": {
+        "barnesHut": {
+            "avoidOverlap": 0,
+            "centralGravity": 0.2,
+            "damping": 0.09,
+            "gravitationalConstant": -8000,
+            "springConstant": 0.02,
+            "springLength": 250
+        },
+        "enabled": true,
+        "stabilization": {
+            "enabled": true,
+            "fit": true,
+            "iterations": 1000,
+            "onlyDynamicEdges": false,
+            "updateInterval": 50
+        }
+    }
+};
+
+                  
+
+
+                  
+
+                  network = new vis.Network(container, data, options);
+
+                  
+
+                  
+
+                  
+
+
+                  
+
+                  return network;
+
+              }
+              drawGraph();
+        </script>
+    </body>
+</html>

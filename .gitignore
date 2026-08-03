@@ -143,3 +143,5 @@ client/dist/
 
 # Secret files
 secret.txt
+/prototype/cache
+/prototype/lib
